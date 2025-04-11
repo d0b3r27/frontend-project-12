@@ -10,3 +10,5 @@ start:
 build:
 	rm -rf frontend/dist
 	npm run build
+dev:
+	cd frontend && npm run dev
