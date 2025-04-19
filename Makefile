@@ -10,5 +10,12 @@ start:
 build:
 	rm -rf frontend/dist
 	npm run build
+
+start-backend:
+	npx @hexlet/chat-server
+
+start-frontend:
+	make -C frontend dev
+
 dev:
-	cd frontend && npm run dev
+	make start-backend & make start-frontend

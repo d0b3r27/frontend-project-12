@@ -1,16 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Page404 from './pages/page404.jsx';
+import LoginPage from './pages/loginPage.jsx';
+import ChatPage from './pages/chatPage.jsx';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Route path="/" element={loginPage}/>
-        <Route path="/login" element={loginPage}/> */}
-        <Route path="*" element={<Page404 />}/>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<ChatPage />}/>
+      <Route path="/login" element={<LoginPage />}/>
+      <Route path="*" element={<Page404 />}/>
+    </Routes>
   );
 };
 
-export default App
+export default App;
