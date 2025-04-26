@@ -1,13 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { useLoginMutation } from '../slices/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUser } from '../slices/usersSlice.js';
+import { useLoginMutation } from '../slices/apiSlice';
 
 const LoginForm = () => {
   const inputRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const [login, { isLoading, error }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -32,9 +35,11 @@ const LoginForm = () => {
         }
         try {
           const response = await login(values).unwrap();
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('user', JSON.stringify(response));
+          dispatch(addUser(response));
           navigate('/');
         } catch (e) {
+          console.log(e);
           inputRef.current.select();
         }
       }}
@@ -69,7 +74,7 @@ const LoginForm = () => {
               </div>
             )}
           </div>
-          <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+          <button type="submit" className="w-100 mb-3 btn btn-outline-primary" disabled={isLoading}>Войти</button>
         </Form>
     </Formik>
   )
