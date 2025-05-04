@@ -1,15 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { addUser } from '../slices/usersSlice.js';
-import { useLoginMutation } from '../slices/apiSlice';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../slices/userSlice.js';
+import axios from 'axios';
+import urls from '../slices/serverUrls.js';
 
 const LoginForm = () => {
   const inputRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [authError, setAuthError] = useState();
+  const [isLoading, setIsLoading] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const LoginForm = () => {
       }}
       onSubmit={ async (values) => {
         const { username, password } = values;
+        setAuthError(false);
         
         if (!username) {
           inputRef.current.focus();
@@ -34,13 +37,18 @@ const LoginForm = () => {
           return;
         }
         try {
-          const response = await login(values).unwrap();
-          localStorage.setItem('user', JSON.stringify(response));
-          dispatch(addUser(response));
+          setIsLoading(true);
+          const response = await axios.post(urls.login, values);
+          localStorage.setItem('user', JSON.stringify(response.data));
+          console.log(response.data)
+          dispatch(addUser(response.data));
           navigate('/');
         } catch (e) {
+          setAuthError(true);
           console.log(e);
           inputRef.current.select();
+        } finally {
+          setIsLoading(false);
         }
       }}
     >
@@ -52,7 +60,7 @@ const LoginForm = () => {
               autoComplete='username'
               placeholder="Ваш ник" 
               id="username" 
-              className={`form-control ${error ? 'is-invalid' : ''}`}
+              className={`form-control ${authError ? 'is-invalid' : ''}`}
               innerRef={inputRef}
             />
             <label htmlFor="username">Ваш ник</label>
@@ -64,11 +72,11 @@ const LoginForm = () => {
               placeholder="Пароль" 
               type="password" 
               id="password" 
-              className={`form-control ${error ? 'is-invalid' : ''}`}
+              className={`form-control ${authError ? 'is-invalid' : ''}`}
               innerRef={passwordRef}
             />
             <label className="form-label" htmlFor="password">Пароль</label>
-            {error && (
+            {authError && (
               <div className="mt-1 text-center rounded bg-danger text-white">
                 Неверные имя пользователя или пароль
               </div>

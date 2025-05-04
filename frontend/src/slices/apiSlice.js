@@ -1,17 +1,23 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import urls from './serverUrls';
 
 export const chatApi = createApi({
   reducerPath: 'chatApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: urls.base,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().user.token;
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    }
+  }),
   endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (body) => ({
-        url: 'login',
-        method: 'POST',
-        body,
-      }),
+    getChannels: builder.query({
+      query: () => 'channels',
     }),
   }),
 });
 
-export const { useLoginMutation } = chatApi;
+export const { useGetChannelsQuery } = chatApi;
