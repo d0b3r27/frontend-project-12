@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../slices/userSlice.js';
+import { login } from '../slices/authSlice.js';
 import axios from 'axios';
 import urls from '../slices/serverUrls.js';
 
-const LoginForm = () => {
+const LoginForm = ({ isAuth }) => {
   const inputRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
@@ -39,9 +39,7 @@ const LoginForm = () => {
         try {
           setIsLoading(true);
           const response = await axios.post(urls.login, values);
-          localStorage.setItem('user', JSON.stringify(response.data));
-          console.log(response.data)
-          dispatch(addUser(response.data));
+          dispatch(login(response.data));
           navigate('/');
         } catch (e) {
           setAuthError(true);
@@ -82,7 +80,7 @@ const LoginForm = () => {
               </div>
             )}
           </div>
-          <button type="submit" className="w-100 mb-3 btn btn-outline-primary" disabled={isLoading}>Войти</button>
+          <button type="submit" className="w-100 mb-3 btn btn-outline-primary" disabled={isLoading || isAuth}>Войти</button>
         </Form>
     </Formik>
   )

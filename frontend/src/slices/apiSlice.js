@@ -6,7 +6,7 @@ export const chatApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: urls.base,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.token;
+      const token = getState().auth.token;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -16,6 +16,9 @@ export const chatApi = createApi({
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => 'channels',
+    }),
+    getMessages: builder.query({
+      query: () => 'messages',
     }),
   }),
 });
