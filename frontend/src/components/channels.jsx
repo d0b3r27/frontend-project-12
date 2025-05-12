@@ -1,18 +1,7 @@
+import { useGetChannelsQuery } from "../slices/apiSlice";
 
-
-const Channels = ({ channels }) => {
-  const channelsList = channels.map((channel) => (
-    <li key={channel.id} className="nav-item w-100">
-      <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
-        <span className="me-1">#</span>
-        {channel.name}
-      </button>
-    </li>
-  ));
-
-  const addChannelHandler = () => {
-    
-  }
+const Channels = () => {
+  const { data, error } = useGetChannelsQuery();
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -26,9 +15,16 @@ const Channels = ({ channels }) => {
           <span className="visually-hidden">+</span>
         </button>
       </div>
-      {channelsList && (
+      {data && (
         <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-          {channelsList}
+          {data.map((channel) => (
+            <li key={channel.id} className="nav-item w-100">
+              <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
+                <span className="me-1">#</span>
+                {channel.name}
+              </button>
+            </li>
+          ))}
         </ul>
       )}
     </div>

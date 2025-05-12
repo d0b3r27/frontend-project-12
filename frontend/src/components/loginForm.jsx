@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../slices/authSlice.js';
 import axios from 'axios';
 import urls from '../slices/serverUrls.js';
 
-const LoginForm = ({ isAuth }) => {
+const LoginForm = () => {
   const inputRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const [authError, setAuthError] = useState();
   const [isLoading, setIsLoading] = useState();
   const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   useEffect(() => {
     inputRef.current.focus();

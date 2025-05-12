@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../slices/authSlice";
 import { useNavigate } from 'react-router-dom';
 
-const NavBar = ({ isAuth }) => {
+const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   const logoutHandler = () => {
     dispatch(logout());

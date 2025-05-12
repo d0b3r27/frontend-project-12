@@ -1,16 +1,14 @@
 import avatar from '../assets/avatar.jpg';
 import LoginForm from '../components/loginForm';
 import NavBar from "../components/navigationBar";
-import { useDispatch, useSelector } from 'react-redux';
 
 const LoginPage = () => {
-  const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   return (
     <div className="h-100">
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
-          <NavBar isAuth={isAuth}/>
+          <NavBar/>
           <div className="container-fluid h-100">
             <div className="row justify-content-center align-content-center h-100">
               <div className="col-12 col-md-8 col-xxl-6">
@@ -19,7 +17,7 @@ const LoginPage = () => {
                     <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                       <img src={avatar} className="rounded-circle" alt="Войти"/>
                     </div>
-                    <LoginForm isAuth={isAuth}/>
+                    <LoginForm/>
                   </div>
                   <div className="card-footer p-4">
                     <div className="text-center">
