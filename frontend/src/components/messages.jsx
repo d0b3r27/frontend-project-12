@@ -25,7 +25,7 @@ const Messages = () => {
           <p className="m-0">
             <b># general</b>
           </p>
-          <span className="text-muted">{data.length} сообщений</span>
+          <span className="text-muted">{data?.length ?? 0} сообщений</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {data && 
