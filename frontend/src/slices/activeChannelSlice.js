@@ -1,13 +1,14 @@
-import { createSlice, isAction } from "@reduxjs/toolkit"; 
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { id: null };
+const initialState = { name: 'general', id: '1' };
 
 const activeChannel = createSlice({
   name: 'activeChannel',
   initialState,
   reducers: {
     setActiveChannel(state, { payload }) {
-      const { id } = payload;
+      const { name, id } = payload;
+      state.name = name;
       state.id = id;
     },
   },

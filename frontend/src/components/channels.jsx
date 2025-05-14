@@ -1,7 +1,15 @@
 import { useGetChannelsQuery } from "../slices/apiSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveChannel } from '../slices/activeChannelSlice.js';
 
 const Channels = () => {
   const { data, error } = useGetChannelsQuery();
+  const activeChannelId = useSelector((state) => state.activeChannel.id);
+  const dispatch = useDispatch();
+
+  const channelHandler = (name, id) => {
+    dispatch(setActiveChannel({name, id}));
+  }
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -17,18 +25,21 @@ const Channels = () => {
       </div>
       {data && (
         <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-          {data.map((channel) => (
-            <li key={channel.id} className="nav-item w-100">
-              <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
+          {data.map(({name, id}) => {
+            const isActive = activeChannelId === id;
+            const buttonClass = `w-100 rounded-0 text-start btn ${isActive ? 'btn-secondary' : ''}`;
+            return (
+              <li key={id} className="nav-item w-100">
+              <button type="button" onClick={() => channelHandler(name, id)} className={buttonClass}>
                 <span className="me-1">#</span>
-                {channel.name}
+                {name}
               </button>
             </li>
-          ))}
+            )
+            })}
         </ul>
       )}
     </div>
-
   );
 };
 

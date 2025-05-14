@@ -7,6 +7,7 @@ const Messages = () => {
   const [addMessage] = useAddMessageMutation();
   const [message, setMessage] = useState('');
   const username = useSelector(state => state.auth.username);
+  const { name: channelName, id: activeChannelId } = useSelector((state) => state.activeChannel);
 
   const inputHandler = (e) => {
     setMessage(e.target.value);
@@ -14,27 +15,28 @@ const Messages = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    addMessage({body: message, channelId: '1', username,});
+    addMessage({body: message, channelId: activeChannelId, username,});
     setMessage('');
   };
+
+  const activeChannelMessages = data?.filter(({channelId}) => channelId === activeChannelId);
 
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b># general</b>
+            <b># {channelName}</b>
           </p>
-          <span className="text-muted">{data?.length ?? 0} сообщений</span>
+          <span className="text-muted">{activeChannelMessages?.length ?? 0} сообщений</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {data && 
-            data.map((message) => (
-              <div key={message.id} className="text-break mb-2">
-                <b>{message.username}</b>
-                :
-                {` ${message.body}`}
-              </div>))
+          {activeChannelMessages?.map(({id, username, body}) => (
+            <div key={id} className="text-break mb-2">
+              <b>{username}</b>
+              :
+              {` ${body}`}
+            </div>))
           }
         </div>
         <div className="mt-auto px-5 py-3">
