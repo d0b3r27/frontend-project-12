@@ -6,7 +6,7 @@ const activeChannel = createSlice({
   name: 'activeChannel',
   initialState,
   reducers: {
-    setActiveChannel(state, { payload }) {
+    setActiveChannel(state, {payload}) {
       const { name, id } = payload;
       state.name = name;
       state.id = id;
