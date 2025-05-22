@@ -1,14 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import NavBar from "../components/navigationBar";
 import Channels from "../components/channels";
 import Messages from "../components/messages";
-import modalComponents from "../modals";
 
 const ChatPage = () => {
-  const modalName = useSelector((state) => state.modal.name);
-  const ModalComponent = modalComponents[modalName];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +25,6 @@ const ChatPage = () => {
         </div>
       </div>
       <div className="Toastify"></div>
-      {ModalComponent && <ModalComponent/>}
     </div>
   )
 };

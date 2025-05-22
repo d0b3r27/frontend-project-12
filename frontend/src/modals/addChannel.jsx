@@ -1,11 +1,18 @@
+import { useRef, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAddChannelMutation } from '../slices/apiSlice';
 import { openModal, closeModal } from '../slices/modalSlice.js';
 
-const AddChannelForm = () => {
+export const AddChannelForm = () => {
   const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <Formik
     initialValues={{channelName: '',}}
@@ -22,6 +29,7 @@ const AddChannelForm = () => {
           id='channelName'
           placeholder='Имя канала'
           className='mb-2 form-control'
+          innerRef={inputRef}
         />
         <label className='visually-hidden' htmlFor='channelName'>Имя канала</label>
         <div className='invalid-feedback'></div>
@@ -34,22 +42,3 @@ const AddChannelForm = () => {
   </Formik>
   );
 } ;
-
-const AddChannelModal = () => {
-  const dispatch = useDispatch();
-  return (
-    <div className='modal-dialog modal-dialog-centered'>
-      <div className='modal-content'>
-        <div className='modal-header'>
-          <div className='modal-title h4'>Добавить канал</div>
-          <button type='button' aria-label='Close' data-bs-dismiss='modal' className='btn btn-close' onClick={() => dispatch(closeModal())}></button>
-        </div>
-        <div className='modal-body'>
-          <AddChannelForm />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default AddChannelModal;
