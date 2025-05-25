@@ -23,12 +23,38 @@ const useSocketEvents = () => {
       );
     };
 
+    const handleEditChannel = (channel) => {
+      store.dispatch(
+        chatApi.util.updateQueryData('getChannels', undefined, (draft) => {
+          const index = draft.findIndex((c) => c.id === channel.id);
+          if (index !== -1) {
+            draft[index].name = channel.name;
+          }
+        })
+      );
+    };
+
+    const handleRemoveChannel = ({ id }) => {
+      store.dispatch(
+        chatApi.util.updateQueryData('getChannels', undefined, (draft) => {
+          const index = draft.findIndex((c) => c.id === id);
+          if (index !== -1) {
+            draft.splice(index, 1);
+          }
+        })
+      );
+    };
+
     socket.on('newMessage', handleNewMessage);
     socket.on('newChannel', handleNewChannel);
+    socket.on('renameChannel', handleEditChannel);
+    socket.on('removeChannel', handleRemoveChannel);
 
     return () => {
       socket.off('newMessage', handleNewMessage);
       socket.off('newChannel', handleNewChannel);
+      socket.off('renameChannel', handleEditChannel);
+      socket.off('removeChannel', handleRemoveChannel);
     };
   }, []);
 };

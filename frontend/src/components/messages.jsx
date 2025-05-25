@@ -13,9 +13,9 @@ const Messages = () => {
     setMessage(e.target.value);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    addMessage({body: message, channelId: activeChannelId, username,});
+    await addMessage({body: message, channelId: activeChannelId, username,});
     setMessage('');
   };
 

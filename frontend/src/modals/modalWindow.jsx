@@ -2,25 +2,26 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../slices/modalSlice';
 import { useSelector } from 'react-redux';
-import { AddChannelForm } from './addChannel';
+import AddChannelForm from './addChannelForm';
+import EditChannelForm from './editChannelForm';
+import RemoveChannelForm from './removeChannelForm';
+
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
-  const { modalType, isOpen } = useSelector((state) => state.modal);
+  const { modalName, modalType, channelId,  isOpen } = useSelector((state) => state.modal);
 
   const handleClose = () => dispatch(closeModal());
-
-  const textTitle = {
-    addChannel: 'Добавить канал',
-  }
 
   return (
     <Modal show={isOpen} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{textTitle[modalType]}</Modal.Title>
+        <Modal.Title>{modalName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddChannelForm/>
+        {modalType === 'addChannel' && <AddChannelForm/>}
+        {modalType === 'editChannel' && <EditChannelForm id={channelId}/>}
+        {modalType === 'removeChannel' && <RemoveChannelForm id={channelId}/>}
       </Modal.Body>
     </Modal>
   );

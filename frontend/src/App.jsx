@@ -3,7 +3,7 @@ import Page404 from './pages/page404.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import ChatPage from './pages/chatPage.jsx';
 import useSocketEvents from './socket.js';
-import ModalWindow from './modals/newModal.jsx';
+import ModalWindow from './modals/modalWindow.jsx';
 
 const App = () => {
 
