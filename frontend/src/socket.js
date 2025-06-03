@@ -1,12 +1,20 @@
 import { io } from 'socket.io-client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import store from './slices/store';
 import { chatApi } from './slices/apiSlice';
+import { setActiveChannelDefault } from './slices/activeChannelSlice';
 
 const socket = io();
 
 const useSocketEvents = () => {
+  const dispatch = useDispatch();
+  const activeChannelId = useSelector((state) => state.activeChannel.id);
+  const activeChannelIdRef = useRef(activeChannelId);
+
   useEffect(() => {
+    activeChannelIdRef.current = activeChannelId;
+
     const handleNewMessage = (message) => {
       store.dispatch(
         chatApi.util.updateQueryData('getMessages', undefined, (draft) => {
@@ -43,6 +51,10 @@ const useSocketEvents = () => {
           }
         })
       );
+
+      if (id === activeChannelId) {
+        dispatch(setActiveChannelDefault());
+      }
     };
 
     socket.on('newMessage', handleNewMessage);
@@ -56,7 +68,7 @@ const useSocketEvents = () => {
       socket.off('renameChannel', handleEditChannel);
       socket.off('removeChannel', handleRemoveChannel);
     };
-  }, []);
+  }, [activeChannelId]);
 };
 
 export default useSocketEvents;

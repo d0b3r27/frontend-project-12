@@ -10,11 +10,12 @@ const ChatPage = () => {
   useEffect(() => {
     if (!localStorage.getItem('user')) {
       navigate('/login');
+      return;
     }
   }, []);
 
   return (
-    <div className="h-100" id="chat">
+    <>
       <div className="d-flex flex-column h-100">
         <NavBar/>
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -25,7 +26,7 @@ const ChatPage = () => {
         </div>
       </div>
       <div className="Toastify"></div>
-    </div>
+    </>
   )
 };
 

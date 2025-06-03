@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Page404 from './pages/page404.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import ChatPage from './pages/chatPage.jsx';
+import SingupPage from './pages/signupPage.jsx';
 import useSocketEvents from './socket.js';
 import ModalWindow from './modals/modalWindow.jsx';
 
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<ChatPage />}/>
         <Route path="/login" element={<LoginPage />}/>
+        <Route path='/signup' element={<SingupPage />}/>
         <Route path="*" element={<Page404 />}/>
       </Routes>
       <ModalWindow/>

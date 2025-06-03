@@ -7,7 +7,7 @@ import axios from 'axios';
 import urls from '../slices/serverUrls.js';
 
 const LoginForm = () => {
-  const inputRef = useRef();
+  const loginRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const [authError, setAuthError] = useState();
@@ -16,7 +16,7 @@ const LoginForm = () => {
   const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   useEffect(() => {
-    inputRef.current.focus();
+    loginRef.current.focus();
   }, []);
 
   return (
@@ -30,7 +30,7 @@ const LoginForm = () => {
         setAuthError(false);
         
         if (!username) {
-          inputRef.current.focus();
+          loginRef.current.focus();
           return;
         }
         if (!password) {
@@ -45,7 +45,7 @@ const LoginForm = () => {
         } catch (e) {
           setAuthError(true);
           console.log(e);
-          inputRef.current.select();
+          loginRef.current.select();
         } finally {
           setIsLoading(false);
         }
@@ -60,7 +60,7 @@ const LoginForm = () => {
             placeholder="Ваш ник" 
             id="username" 
             className={`form-control ${authError ? 'is-invalid' : ''}`}
-            innerRef={inputRef}
+            innerRef={loginRef}
           />
           <label htmlFor="username">Ваш ник</label>
         </div>

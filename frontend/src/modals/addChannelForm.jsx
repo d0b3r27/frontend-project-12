@@ -58,7 +58,7 @@ const AddChannelForm = () => {
               innerRef={inputRef}
             />
             <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
-            <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
+            <ErrorMessage name="channelName" component="div" className="invalid-feedback"/>
             <div className="d-flex justify-content-end">
               <button type="button" className="me-2 btn btn-secondary" onClick={() => dispatch(closeModal())}>Отменить</button>
               <button type="submit" className="btn btn-primary">Отправить</button>
