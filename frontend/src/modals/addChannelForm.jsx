@@ -1,17 +1,18 @@
 import { useRef, useEffect, useMemo } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useAddChannelMutation } from '../slices/apiSlice.js';
 import { useGetChannelsQuery } from '../slices/apiSlice.js';
-import { closeModal } from '../slices/modalSlice.js';
 import { setActiveChannel } from '../slices/activeChannelSlice.js';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
-const AddChannelForm = () => {
+const AddChannelForm = ({close}) => {
   const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
   const { data: channels = [] } = useGetChannelsQuery();
   const inputRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -21,18 +22,19 @@ const AddChannelForm = () => {
     channels.map((channel) => channel.name.toLowerCase()),
   [channels]);
 
-  const validationSchema = Yup.object({
+  const validationSchema = (t) => Yup.object({
   channelName: Yup.string()
-    .required('Обязательное поле')
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов')
-    .notOneOf(channelNames, 'Канал с таким именем уже существует'),
+    .required(t('yup.required'))
+    .min(3, t('yup.min3Max20'))
+    .max(20, t('yup.min3Max20'))
+    .notOneOf(channelNames, t('yup.alreadyExist')),
   });
 
   return (
     <Formik
     initialValues={{channelName: '',}}
-    validationSchema={validationSchema}
+    validationSchema={validationSchema(t)}
+    validateOnBlur={false}
     onSubmit={async (values) => {
       const { channelName } = values;
       try {
@@ -42,7 +44,7 @@ const AddChannelForm = () => {
       } catch (e) {
         console.log(e);
       } finally {
-        dispatch(closeModal());
+        close();
       }
     }}
     >
@@ -53,15 +55,15 @@ const AddChannelForm = () => {
               name="channelName"
               autoComplete="channelName"
               id="channelName"
-              placeholder="Имя канала"
+              placeholder={t('modal.channelName')}
               className={`mb-2 form-control ${touched.channelName && errors.channelName ? 'is-invalid' : ''}`}
               innerRef={inputRef}
             />
-            <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
+            <label className="visually-hidden" htmlFor="channelName">{t('modal.channelName')}</label>
             <ErrorMessage name="channelName" component="div" className="invalid-feedback"/>
             <div className="d-flex justify-content-end">
-              <button type="button" className="me-2 btn btn-secondary" onClick={() => dispatch(closeModal())}>Отменить</button>
-              <button type="submit" className="btn btn-primary">Отправить</button>
+              <button type="button" className="me-2 btn btn-secondary" onClick={() => close()}>{t('modal.cancel')}</button>
+              <button type="submit" className="btn btn-primary">{t('modal.send')}</button>
             </div>
           </div>
         </Form>

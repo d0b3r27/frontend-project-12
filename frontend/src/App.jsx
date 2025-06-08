@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Page404 from './pages/page404.jsx';
-import LoginPage from './pages/loginPage.jsx';
+import SigninPage from './pages/signinPage.jsx';
 import ChatPage from './pages/chatPage.jsx';
 import SingupPage from './pages/signupPage.jsx';
 import useSocketEvents from './socket.js';
@@ -14,7 +14,7 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<ChatPage />}/>
-        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/login" element={<SigninPage />}/>
         <Route path='/signup' element={<SingupPage />}/>
         <Route path="*" element={<Page404 />}/>
       </Routes>

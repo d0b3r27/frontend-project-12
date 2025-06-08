@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useGetChannelsQuery } from "../slices/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveChannel } from '../slices/activeChannelSlice.js';
-import { addChannelModal, editChannelModal, removeChannelModal, closeModal } from '../slices/modalSlice.js';
+import { addChannelModal, editChannelModal, removeChannelModal } from '../slices/modalSlice.js';
+import { useTranslation } from 'react-i18next';
 
 const ChannelsList = ({channels}) => {
   const activeChannelId = useSelector((state) => state.activeChannel.id);
   const activeChannelRef = useRef(null);
   const dispatch = useDispatch();
   const [openedDropdownId, setOpenedDropdownId] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     activeChannelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -67,8 +69,8 @@ const ChannelsList = ({channels}) => {
                     transform: 'translate(0px, 40px)',
                   }}
                   >
-                    <a data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#" onClick={() => handleRemoveChannel(id)}>Удалить</a>
-                    <a data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#" onClick={() => handleEditChannel(id)}>Переименовать</a>
+                    <a data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#" onClick={() => handleRemoveChannel(id)}>{t('channels.remove')}</a>
+                    <a data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#" onClick={() => handleEditChannel(id)}>{t('channels.rename')}</a>
                   </div>
                 </>
               }
@@ -83,11 +85,12 @@ const ChannelsList = ({channels}) => {
 const Channels = () => {
   const { data, error } = useGetChannelsQuery();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.channels')}</b>
         <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => dispatch(addChannelModal())}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>

@@ -1,13 +1,14 @@
 import { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRemoveChannelMutation } from '../slices/apiSlice.js';
-import { closeModal } from '../slices/modalSlice.js';
 import { setActiveChannelDefault } from '../slices/activeChannelSlice.js';
+import { useTranslation } from 'react-i18next';
 
-export const RemoveChannelForm = ({ id }) => {
+export const RemoveChannelForm = ({ id, close }) => {
   const dispatch = useDispatch();
   const [removeChannel] = useRemoveChannelMutation();
   const inputRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -20,16 +21,16 @@ export const RemoveChannelForm = ({ id }) => {
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(closeModal());
+      close();
     }
   };
 
   return (
     <>
-      <p className="lead">Уверены?</p>
+      <p className="lead">{t('modal.uSure')}</p>
       <div className='d-flex justify-content-end'>
-        <button type='button' className='me-2 btn btn-secondary' onClick={() => dispatch(closeModal())}>Отменить</button>
-        <button type='submit' className='btn btn-danger' onClick={() => removeHandler(id)}>Удалить</button>
+        <button type='button' className='me-2 btn btn-secondary' onClick={() => close()}>{t('modal.cancel')}</button>
+        <button type='submit' className='btn btn-danger' onClick={() => removeHandler(id)}>{t('modal.remove')}</button>
       </div>
     </>  
   );

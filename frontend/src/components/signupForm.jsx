@@ -6,23 +6,26 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import urls from '../slices/serverUrls';
 import { login } from '../slices/authSlice';
+import { useTranslation } from 'react-i18next';
 
 const SignupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const usernameRef = useRef();
+  const [signupError, setSignupError] = useState();
+  const { t } = useTranslation();
 
   const validationSchema = Yup.object({
     username: Yup.string()
-      .required('Обязательно поле')
-      .min(3, 'Минимум 3 символа')
-      .max(20, 'Максимум 20 символов'),
+      .required(t('yup.required'))
+      .min(3, t('yup.min3Max20'))
+      .max(20, t('yup.min3Max20')),
     password: Yup.string()
-      .required('Обязательное поле')
-      .min(6, 'Минимум 6 символов'),
+      .required(t('yup.required'))
+      .min(6, t('yup.min6')),
     confirmPassword: Yup.string()
-      .required('Обязательное поле')
-      .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать'),
+      .required(t('yup.required'))
+      .oneOf([Yup.ref('password'), null], t('yup.passwordConfirm')),
   });
 
   useEffect(() => {
@@ -37,18 +40,22 @@ const SignupForm = () => {
       confirmPassword: '',
     }}
     validationSchema={validationSchema}
-    onSubmit={async (values, { setSubmitting, setStatus }) => {
+    onSubmit={async (values, { setSubmitting }) => {
       const { username, password } = values;
-      setStatus(null);
+      if (!username) {
+          usernameRef.current.focus();
+          return;
+        }
+
       try {
         const response = await axios.post(urls.singup, ({ username, password }));
         dispatch(login(response.data));
         navigate('/')
       } catch (error) {
         if (error.response?.status === 409) {
-            setStatus('Такой пользователь уже существует');
+            setSignupError(t('errors.signup.userAlreadyExist'));
         } else {
-            setStatus('Ошибка при регистрации. Попробуйте позже.');
+            setSignupError(t('errors.signup.registrationError'));
           }
         console.log(error);
       } finally {
@@ -56,19 +63,19 @@ const SignupForm = () => {
       }
     }}
     >
-      {({ errors, touched, isSubmitting, status }) => (
+      {({ errors, touched, isSubmitting }) => (
         <Form className='w-50'>
-          <h1 className='text-center mb-4'>Регистрация</h1>
+          <h1 className='text-center mb-4'>{t('signup.signup')}</h1>
           <div className='form-floating mb-3'>
             <Field
               id='username'
               name='username'
-              className={`form-control ${touched.username && errors.username ? 'is-invalid' : ''}`}
+              className={`form-control ${errors.username ? 'is-invalid' : ''}`}
               placeholder='username'
               autoComplete='username'
-              ref={usernameRef}
+              innerRef={usernameRef}
             />
-            <label className='form-label' htmlFor='username'>Имя пользователя</label>
+            <label className='form-label' htmlFor='username'>{t('signup.username')}</label>
             <ErrorMessage name="username" component="div" className="invalid-feedback"/>
           </div>
           <div className='form-floating mb-3'>
@@ -80,7 +87,7 @@ const SignupForm = () => {
               placeholder='password'
               autoComplete='password'
             />
-            <label className='form-label' htmlFor='password'>Пароль</label>
+            <label className='form-label' htmlFor='password'>{t('signup.password')}</label>
             <ErrorMessage name="password" component="div" className="invalid-feedback"/>
           </div>
           <div className='form-floating mb-3'>
@@ -92,11 +99,11 @@ const SignupForm = () => {
               placeholder='confirmPassword'
               autoComplete='confirmPassword'
             />
-            <label className='form-label' htmlFor='confirmPassword'>Подтвердите пароль</label>
+            <label className='form-label' htmlFor='confirmPassword'>{t('signup.confirmPassword')}</label>
             <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback"/>
-            {status && <div className="mt-1 text-center rounded bg-danger text-white">{status}</div>}
+            {signupError && <div className="mt-1 text-center rounded bg-danger text-white">{signupError}</div>}
           </div>
-          <button className='w-100 btn btn-outline-primary' disabled={isSubmitting} type='submit'>Зарегистрироваться</button>
+          <button className='w-100 btn btn-outline-primary' disabled={isSubmitting} type='submit'>{t('signup.registration')}</button>
         </Form>
       )}
     </Formik>

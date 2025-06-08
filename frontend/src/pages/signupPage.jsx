@@ -1,9 +1,12 @@
 import SignupForm from "../components/signupForm";
 import NavBar from "../components/navigationBar";
 import signup from '../assets/signup.jpg';
+import { useTranslation } from 'react-i18next';
 
 
 const SingupPage = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="d-flex flex-column h-100">
@@ -14,7 +17,7 @@ const SingupPage = () => {
               <div className="card shadow-sm">
                 <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                   <div>
-                    <img src={signup} className="rounded-circle" alt="Регистрация"/>
+                    <img src={signup} className="rounded-circle" alt={t('signup.signup')}/>
                   </div>
                   <SignupForm/>
                 </div>

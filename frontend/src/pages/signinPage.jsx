@@ -1,8 +1,12 @@
 import avatar from '../assets/avatar.jpg';
 import LoginForm from '../components/loginForm';
 import NavBar from "../components/navigationBar";
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-const LoginPage = () => {
+const SigninPage = () => {
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -20,8 +24,8 @@ const LoginPage = () => {
                 </div>
                 <div className="card-footer p-4">
                   <div className="text-center">
-                    <span>Нет аккаунта? </span> 
-                    <a href="/signup">Регистрация</a>
+                    <span>{t('signin.noAccount')} </span> 
+                    <Link to="/signup">{t('signin.signup')}</Link>
                   </div>
                 </div>
               </div>
@@ -34,4 +38,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SigninPage;
