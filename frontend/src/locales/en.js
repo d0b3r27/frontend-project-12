@@ -1,8 +1,8 @@
 export default {
   translation: {
     signin: {
-      noAccount: 'No account?',
-      login: 'Sign in',
+      noAccount: "Don't have an account?",
+      login: 'Log in',
       signup: 'Sign up',
       username: 'Your username',
       password: 'Password',
@@ -48,20 +48,27 @@ export default {
     },
     yup: {
       required: 'Required field',
-      min3Max20: 'Must be between 3 and 20 characters',
+      min3Max20: 'From 3 to 20 characters',
       min6: 'At least 6 characters',
       passwordConfirm: 'Passwords must match',
       alreadyExist: 'A channel with this name already exists',
+      profanity: 'Invalid name (profanity detected)',
     },
     errors: {
       signin: {
         wrongLogPas: 'Incorrect username or password',
-        signinError: 'Authorization error. Please try again later.',
+        signinError: 'Login error. Please try again later.',
       },
       signup: {
-        userAlreadyExist: 'This user already exists',
+        userAlreadyExist: 'User already exists',
         registrationError: 'Registration error. Please try again later.',
       },
-    }
+    },
+    toasty: {
+      networkError: 'Network error. Please try again later.',
+      channelCreated: 'Channel created',
+      channelRemoved: 'Channel removed',
+      channelRenamed: 'Channel renamed',
+    },
   },
 };

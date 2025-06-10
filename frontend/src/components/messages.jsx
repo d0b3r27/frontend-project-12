@@ -1,7 +1,8 @@
 import { useGetMessagesQuery, useAddMessageMutation } from "../slices/apiSlice";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { cleanText } from '../utils/profanityFilter.js';
 
 const Messages = () => {
   const { data } = useGetMessagesQuery();
@@ -17,11 +18,17 @@ const Messages = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await addMessage({body: message, channelId: activeChannelId, username,});
+    const cleanMessage = cleanText(message);
+    await addMessage({body: cleanMessage, channelId: activeChannelId, username,});
     setMessage('');
   };
 
   const activeChannelMessages = data?.filter(({channelId}) => channelId === activeChannelId);
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [activeChannelMessages]);
 
   return (
     <div className="col p-0 h-100">
@@ -33,8 +40,8 @@ const Messages = () => {
           <span className="text-muted">{t('messages.count', { count: activeChannelMessages?.length ?? 0 })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {activeChannelMessages?.map(({id, username, body}) => (
-            <div key={id} className="text-break mb-2">
+          {activeChannelMessages?.map(({id, username, body}, index) => (
+            <div key={id} className="text-break mb-2" ref={index === activeChannelMessages.length - 1 ? lastMessageRef : null}>
               <b>{username}</b>
               :
               {` ${body}`}

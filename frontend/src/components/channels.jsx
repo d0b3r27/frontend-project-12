@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setActiveChannel } from '../slices/activeChannelSlice.js';
 import { addChannelModal, editChannelModal, removeChannelModal } from '../slices/modalSlice.js';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const ChannelsList = ({channels}) => {
   const activeChannelId = useSelector((state) => state.activeChannel.id);
@@ -86,6 +87,12 @@ const Channels = () => {
   const { data, error } = useGetChannelsQuery();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+    useEffect(() => {
+    if (error) {
+      toast.error(t('toasty.networkError'));
+    }
+  }, [error, t]);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">

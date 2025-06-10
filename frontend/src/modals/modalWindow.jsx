@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
-  const { modalName, modalType, channelId,  isOpen } = useSelector((state) => state.modal);
+  const { modalType, channelId,  isOpen } = useSelector((state) => state.modal);
   const { t } = useTranslation();
 
   const handleClose = () => {

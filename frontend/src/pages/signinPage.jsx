@@ -33,7 +33,6 @@ const SigninPage = () => {
           </div>
         </div>
       </div>
-      <div className="Toastify"></div>
     </>
   );
 };

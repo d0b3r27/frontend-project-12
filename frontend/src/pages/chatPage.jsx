@@ -25,7 +25,6 @@ const ChatPage = () => {
           </div>
         </div>
       </div>
-      <div className="Toastify"></div>
     </>
   )
 };

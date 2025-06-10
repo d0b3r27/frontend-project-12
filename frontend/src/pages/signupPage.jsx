@@ -26,7 +26,6 @@ const SingupPage = () => {
           </div>
         </div>
       </div>
-      <div className="Toastify"></div>
     </>
   );
 };

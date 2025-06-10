@@ -1,13 +1,13 @@
 import { useRef, useEffect, useMemo } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
 import { useEditChannelMutation } from '../slices/apiSlice.js';
 import { useGetChannelsQuery } from '../slices/apiSlice.js';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { containsProfanity } from '../utils/profanityFilter.js';
 
 const EditChannelForm = ({ id, close }) => {
-  const dispatch = useDispatch();
   const [editChannel] = useEditChannelMutation();
   const { data: channels = [] } = useGetChannelsQuery();
   const inputRef = useRef(null);
@@ -26,7 +26,12 @@ const EditChannelForm = ({ id, close }) => {
       .required(t('yup.required'))
       .min(3, t('yup.min3Max20'))
       .max(20, t('yup.min3Max20'))
-      .notOneOf(channelNames, t('yup.alreadyExist')),
+      .notOneOf(channelNames, t('yup.alreadyExist'))
+      .test(
+            'no-profanity',
+            t('yup.profanity'),
+            (value) => !containsProfanity(value ?? ''),
+          ),
     });
 
   return (
@@ -37,11 +42,11 @@ const EditChannelForm = ({ id, close }) => {
     onSubmit={async (values) => {
       const { newName } = values;
       try {
-        await editChannel({newName, id});
-      } catch (e) {
-        console.log(e);
-      } finally {
+        await editChannel({ newName, id }).unwrap();
+        toast.success(t('toasty.channelRenamed'));
         close();
+      } catch (e) {
+        toast.error(t('toasty.networkError'));
       }
     }}
     >

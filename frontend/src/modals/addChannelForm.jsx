@@ -6,6 +6,8 @@ import { useGetChannelsQuery } from '../slices/apiSlice.js';
 import { setActiveChannel } from '../slices/activeChannelSlice.js';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { containsProfanity } from '../utils/profanityFilter.js';
 
 const AddChannelForm = ({close}) => {
   const dispatch = useDispatch();
@@ -27,24 +29,29 @@ const AddChannelForm = ({close}) => {
     .required(t('yup.required'))
     .min(3, t('yup.min3Max20'))
     .max(20, t('yup.min3Max20'))
-    .notOneOf(channelNames, t('yup.alreadyExist')),
+    .notOneOf(channelNames, t('yup.alreadyExist'))
+    .test(
+      'no-profanity',
+      t('yup.profanity'),
+      (value) => !containsProfanity(value ?? ''),
+    ),
   });
 
   return (
     <Formik
-    initialValues={{channelName: '',}}
+    initialValues={{channelName: ''}}
     validationSchema={validationSchema(t)}
     validateOnBlur={false}
     onSubmit={async (values) => {
       const { channelName } = values;
       try {
-        const response = await addChannel({name: channelName});
-        const { name, id } = response.data;
-        dispatch(setActiveChannel({name, id}))
-      } catch (e) {
-        console.log(e);
-      } finally {
+        const response = await addChannel({ name: channelName }).unwrap();
+        const { name, id } = response;
+        dispatch(setActiveChannel({ name, id }));
+        toast.success(t('toasty.channelCreated'));
         close();
+      } catch (e) {
+        toast.error(t('toasty.networkError'));
       }
     }}
     >

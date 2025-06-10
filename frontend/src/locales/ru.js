@@ -52,6 +52,7 @@ export default {
       min6: 'Не менее 6 символов',
       passwordConfirm: 'Пароли должны совпадать',
       alreadyExist: 'Канал с таким именем уже существует',
+      profanity: 'Недопустимое имя (нецензурная лексика)',
     },
     errors: {
       signin: {
@@ -62,6 +63,12 @@ export default {
         userAlreadyExist: 'Такой пользователь уже существует',
         registrationError: 'Ошибка при регистрации. Попробуйте позже.',
       },
-    }
+    },
+    toasty: {
+        networkError: 'Ошибка сети. Попробуйте позже',
+        channelCreated: 'Канал создан',
+        channelRemoved: 'Канал удален',
+        channelRenamed: 'Канал переименован',
+      },
   },
 };

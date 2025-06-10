@@ -17,7 +17,6 @@ const Page404 = () => {
           <p className="text-muted">{t('notFound.message')} <Link to="/">{t('notFound.home')}</Link></p>
         </div>
       </div>
-      <div className="Toastify"></div>
     </>
   );
 };
