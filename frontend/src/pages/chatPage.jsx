@@ -1,18 +1,8 @@
-import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import NavBar from "../components/navigationBar";
 import Channels from "../components/channels";
 import Messages from "../components/messages";
 
 const ChatPage = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!localStorage.getItem('user')) {
-      navigate('/login');
-      return;
-    }
-  }, []);
 
   return (
     <>

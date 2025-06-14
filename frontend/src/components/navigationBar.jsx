@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../slices/authSlice";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const NavBar = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">Hexlet Chat</a>
+        <Link className="navbar-brand" to="/">Hexlet Chat</Link>
         <div className="d-flex align-items-center gap-5">
           <button onClick={languageSwitchHandler} className="btn btn-outline-secondary btn-sm">
             {i18n.language === 'ru' ? 'EN' : 'RU'}

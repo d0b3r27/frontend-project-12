@@ -1,4 +1,4 @@
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { closeModalStart, closeModalFinish } from '../slices/modalSlice';
 import { useSelector } from 'react-redux';

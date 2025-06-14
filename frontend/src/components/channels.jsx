@@ -88,7 +88,7 @@ const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-    useEffect(() => {
+  useEffect(() => {
     if (error) {
       toast.error(t('toasty.networkError'));
     }

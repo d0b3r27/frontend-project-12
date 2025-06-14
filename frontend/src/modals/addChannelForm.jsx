@@ -42,7 +42,7 @@ const AddChannelForm = ({close}) => {
     initialValues={{channelName: ''}}
     validationSchema={validationSchema(t)}
     validateOnBlur={false}
-    onSubmit={async (values) => {
+    onSubmit={async (values, { setSubmitting }) => {
       const { channelName } = values;
       try {
         const response = await addChannel({ name: channelName }).unwrap();
@@ -51,11 +51,13 @@ const AddChannelForm = ({close}) => {
         toast.success(t('toasty.channelCreated'));
         close();
       } catch (e) {
-        toast.error(t('toasty.networkError'));
+          toast.error(t('toasty.networkError'));
+      } finally {
+          setSubmitting(false);
       }
     }}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, isSubmitting }) => (
         <Form>
           <div>
             <Field
@@ -70,7 +72,7 @@ const AddChannelForm = ({close}) => {
             <ErrorMessage name="channelName" component="div" className="invalid-feedback"/>
             <div className="d-flex justify-content-end">
               <button type="button" className="me-2 btn btn-secondary" onClick={() => close()}>{t('modal.cancel')}</button>
-              <button type="submit" className="btn btn-primary">{t('modal.send')}</button>
+              <button type="submit" disabled={isSubmitting} className="btn btn-primary">{t('modal.send')}</button>
             </div>
           </div>
         </Form>

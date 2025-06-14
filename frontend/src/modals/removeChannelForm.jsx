@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useRemoveChannelMutation } from '../slices/apiSlice.js';
 import { setActiveChannelDefault } from '../slices/activeChannelSlice.js';
@@ -15,32 +16,45 @@ export const RemoveChannelForm = ({ id, close }) => {
     inputRef.current?.focus();
   }, []);
 
-  const removeHandler = async () => {
-    try {
-      await removeChannel(id).unwrap();
-      dispatch(setActiveChannelDefault());
-      toast.success(t('toasty.channelRemoved'));
-      close();
-    } catch (e) {
-      toast.error(t('toasty.networkError'));
-    } 
-  };
-
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      removeHandler();
-    }}>
-      <p className="lead">{t('modal.uSure')}</p>
-      <div className='d-flex justify-content-end'>
-        <button type='button' className='me-2 btn btn-secondary' onClick={close}>
-          {t('modal.cancel')}
-        </button>
-        <button type='submit' className='btn btn-danger'>
-          {t('modal.remove')}
-        </button>
-      </div>
-    </form>
+    <Formik
+      initialValues={{}}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          await removeChannel(id).unwrap();
+          dispatch(setActiveChannelDefault());
+          toast.success(t('toasty.channelRemoved'));
+          close();
+        } catch (e) {
+          toast.error(t('toasty.networkError'));
+        } finally {
+          setSubmitting(false);
+        }
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <p className="lead">{t('modal.uSure')}</p>
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="me-2 btn btn-secondary"
+              onClick={close}
+              ref={inputRef}
+            >
+              {t('modal.cancel')}
+            </button>
+            <button
+              type="submit"
+              className="btn btn-danger"
+              disabled={isSubmitting}
+            >
+              {t('modal.remove')}
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

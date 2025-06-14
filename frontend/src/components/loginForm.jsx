@@ -19,6 +19,12 @@ const LoginForm = () => {
   useEffect(() => {
     loginRef.current.focus();
   }, []);
+  
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isAuth]);
 
   return (
     <Formik
@@ -38,10 +44,10 @@ const LoginForm = () => {
           passwordRef.current.focus();
           return;
         }
+
         try {
           const response = await axios.post(urls.login, values);
           dispatch(login(response.data));
-          navigate('/');
         } catch (error) {
           if (error.response?.status === 401) {
             setAuthError(t('errors.signin.wrongLogPas'));

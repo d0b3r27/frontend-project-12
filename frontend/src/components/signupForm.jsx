@@ -13,6 +13,7 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const usernameRef = useRef();
   const [signupError, setSignupError] = useState();
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
   const { t } = useTranslation();
 
   const validationSchema = Yup.object({
@@ -32,6 +33,12 @@ const SignupForm = () => {
     usernameRef.current.focus();
   }, []);
 
+  useEffect(() => {
+      if (isAuth) {
+        navigate('/');
+      }
+    }, [isAuth]);
+
   return (
     <Formik
     initialValues={{
@@ -50,14 +57,12 @@ const SignupForm = () => {
       try {
         const response = await axios.post(urls.singup, ({ username, password }));
         dispatch(login(response.data));
-        navigate('/')
       } catch (error) {
         if (error.response?.status === 409) {
             setSignupError(t('errors.signup.userAlreadyExist'));
         } else {
             setSignupError(t('errors.signup.registrationError'));
           }
-        console.log(error);
       } finally {
         setSubmitting(false);
       }
