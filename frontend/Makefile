@@ -9,5 +9,6 @@ build:
 
 lint:
 	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml .
+	
 dev:
 	npm run dev
