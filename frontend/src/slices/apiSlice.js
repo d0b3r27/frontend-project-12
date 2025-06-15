@@ -6,12 +6,12 @@ export const chatApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: urls.base,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const { token } = getState().auth;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
       return headers;
-    }
+    },
   }),
   endpoints: (builder) => ({
     getChannels: builder.query({
@@ -25,17 +25,17 @@ export const chatApi = createApi({
       }),
     }),
     editChannel: builder.mutation({
-      query: ({id, newName}) => ({
+      query: ({ id, channelName }) => ({
         url: `channels/${id}`,
         method: 'PATCH',
-        body: {name: newName},
-      })
+        body: { name: channelName },
+      }),
     }),
     removeChannel: builder.mutation({
       query: (id) => ({
         url: `channels/${id}`,
         method: 'DELETE',
-      })
+      }),
     }),
     getMessages: builder.query({
       query: () => 'messages',
@@ -48,10 +48,10 @@ export const chatApi = createApi({
       }),
     }),
     editMessage: builder.mutation({
-      query: ({id, newName}) => ({
+      query: ({ id, newName }) => ({
         url: `messages/${id}`,
         method: 'PATCH',
-        body: {name: newName},
+        body: { name: newName },
       }),
     }),
     removeMessage: builder.mutation({
@@ -59,15 +59,15 @@ export const chatApi = createApi({
         url: `messages/${id}`,
         method: 'DELETE',
       }),
-    })
+    }),
   }),
 });
 
-export const { 
-  useGetChannelsQuery, 
+export const {
+  useGetChannelsQuery,
   useGetMessagesQuery,
   useAddChannelMutation,
-  useAddMessageMutation, 
+  useAddMessageMutation,
   useEditChannelMutation,
   useEditMessageMutation,
   useRemoveChannelMutation,

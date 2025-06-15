@@ -1,16 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   modalType: '',
   channelId: '',
   isOpen: false,
-}
+};
 
 const modal = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    addChannelModal(state, { payload }) {
+    addChannelModal(state) {
       state.modalType = 'addChannel';
       state.channelId = null;
       state.isOpen = true;
@@ -31,9 +32,15 @@ const modal = createSlice({
     closeModalFinish(state) {
       state.modalType = null;
       state.channelId = null;
-    }
-  }
+    },
+  },
 });
 
-export const { addChannelModal, editChannelModal, removeChannelModal, closeModalStart, closeModalFinish } = modal.actions;
+export const {
+  addChannelModal,
+  editChannelModal,
+  removeChannelModal,
+  closeModalStart,
+  closeModalFinish,
+} = modal.actions;
 export default modal.reducer;

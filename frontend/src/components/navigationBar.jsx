@@ -1,13 +1,12 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from "../slices/authSlice";
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { logout } from '../slices/authSlice';
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuth = useSelector(state => state.auth.isAuthenticated);
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const { t, i18n } = useTranslation();
 
   const logoutHandler = () => {
@@ -24,7 +23,11 @@ const NavBar = () => {
       <div className="container">
         <Link className="navbar-brand" to="/">Hexlet Chat</Link>
         <div className="d-flex align-items-center gap-5">
-          <button onClick={languageSwitchHandler} className="btn btn-outline-secondary btn-sm">
+          <button
+            onClick={languageSwitchHandler}
+            className="btn btn-outline-secondary btn-sm"
+            type="button"
+          >
             {i18n.language === 'ru' ? 'EN' : 'RU'}
           </button>
           {isAuth && (

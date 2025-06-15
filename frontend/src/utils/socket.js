@@ -1,11 +1,12 @@
+/* eslint-disable no-param-reassign */
 import { io } from 'socket.io-client';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import store from '../slices/store';
 import { chatApi } from '../slices/apiSlice';
 import { setActiveChannelDefault } from '../slices/activeChannelSlice';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
 const socket = io();
 
@@ -85,12 +86,12 @@ const useSocketEvents = () => {
     });
 
     socket.on('connect_error', (err) => {
-      console.error('❌ Ошибка подключения сокета:', err);
+      console.error(t('errors.socket.connectError'), err);
       toast.error(t('errors.socket.connectError'));
     });
 
     socket.on('disconnect', (reason) => {
-      console.warn('⚠️ Socket disconnected:', reason);
+      console.warn(t('errors.socket.disconnect'), reason);
       toast.warning(t('errors.socket.disconnect'));
     });
 
@@ -108,7 +109,7 @@ const useSocketEvents = () => {
       socket.off('renameChannel', handleEditChannel);
       socket.off('removeChannel', handleRemoveChannel);
     };
-  }, [activeChannelId, dispatch]);
+  }, [activeChannelId, dispatch, t]);
 };
 
 export default useSocketEvents;

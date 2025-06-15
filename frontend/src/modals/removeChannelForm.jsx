@@ -1,20 +1,14 @@
-import { useRef, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
-import { useRemoveChannelMutation } from '../slices/apiSlice.js';
-import { setActiveChannelDefault } from '../slices/activeChannelSlice.js';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useRemoveChannelMutation } from '../slices/apiSlice.js';
+import { setActiveChannelDefault } from '../slices/activeChannelSlice.js';
 
-export const RemoveChannelForm = ({ id, close }) => {
+const RemoveChannelForm = ({ id, close }) => {
   const dispatch = useDispatch();
   const [removeChannel] = useRemoveChannelMutation();
-  const inputRef = useRef(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   return (
     <Formik
@@ -40,7 +34,6 @@ export const RemoveChannelForm = ({ id, close }) => {
               type="button"
               className="me-2 btn btn-secondary"
               onClick={close}
-              ref={inputRef}
             >
               {t('modal.cancel')}
             </button>

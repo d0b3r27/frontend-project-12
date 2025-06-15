@@ -1,12 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit"; 
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 const storedUser = localStorage.getItem('user');
 const parsedUser = storedUser ? JSON.parse(storedUser) : null;
 
 const initialState = {
-  username: parsedUser? parsedUser.username : null,
-  token: parsedUser? parsedUser.token : null,
-  isAuthenticated: parsedUser? true : false,
+  username: parsedUser ? parsedUser.username : null,
+  token: parsedUser ? parsedUser.token : null,
+  isAuthenticated: !!parsedUser,
 };
 
 const auth = createSlice({
@@ -25,7 +26,7 @@ const auth = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem('user');
-    }
+    },
   },
 });
 
