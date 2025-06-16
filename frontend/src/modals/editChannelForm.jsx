@@ -65,7 +65,7 @@ const EditChannelForm = ({ id, close }) => {
               className={`mb-2 form-control ${touched.channelName && errors.channelName ? 'is-invalid' : ''}`}
               innerRef={inputRef}
             />
-            <label className="visually-hidden" htmlFor="channelName">{t('modal.addchannelName')}</label>
+            <label className="visually-hidden" htmlFor="channelName">{t('modal.channelName')}</label>
             <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
             <div className="d-flex justify-content-end">
               <button
