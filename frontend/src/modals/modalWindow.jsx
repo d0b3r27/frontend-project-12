@@ -13,11 +13,14 @@ const ModalWindow = () => {
 
   const handleClose = () => {
     dispatch(closeModalStart());
+  };
+
+  const handleExited = () => {
     dispatch(closeModalFinish());
   };
 
   return (
-    <Modal show={isOpen} onHide={handleClose} centered>
+    <Modal show={isOpen} onHide={handleClose} onExited={handleExited} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t(`modal.${modalType}`)}</Modal.Title>
       </Modal.Header>

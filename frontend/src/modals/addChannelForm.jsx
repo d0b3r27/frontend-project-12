@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAddChannelMutation, useGetChannelsQuery } from '../slices/apiSlice.js';
 import { setActiveChannel } from '../slices/activeChannelSlice.js';
-import { containsProfanity } from '../utils/profanityFilter.js';
+import { cleanText } from '../utils/profanityFilter.js';
 
 const AddChannelForm = ({ close }) => {
   const dispatch = useDispatch();
@@ -31,12 +31,7 @@ const AddChannelForm = ({ close }) => {
       .required(t('yup.required'))
       .min(3, t('yup.min3Max20'))
       .max(20, t('yup.min3Max20'))
-      .notOneOf(channelNames, t('yup.alreadyExist'))
-      .test(
-        'no-profanity',
-        t('yup.profanity'),
-        (value) => !containsProfanity(value ?? ''),
-      ),
+      .notOneOf(channelNames, t('yup.alreadyExist')),
   }), [t, channelNames]);
 
   return (
@@ -46,8 +41,9 @@ const AddChannelForm = ({ close }) => {
       validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
         const { channelName } = values;
+        const cleanChannelName = cleanText(channelName);
         try {
-          const response = await addChannel({ name: channelName }).unwrap();
+          const response = await addChannel({ name: cleanChannelName }).unwrap();
           const { name, id } = response;
           dispatch(setActiveChannel({ name, id }));
           toast.success(t('toasty.channelCreated'));
