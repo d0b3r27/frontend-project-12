@@ -59,7 +59,9 @@ const ChannelsList = ({ channels }) => {
                     aria-expanded="false"
                     aria-label="Channel managment"
                     onClick={() => handleManageChannel(id)}
-                  />
+                  >
+                    <span className="visually-hidden">{t('channels.manage')}</span>
+                  </button>
                   <div
                     data-x-placement="bottom-end"
                     className={`dropdown-menu ${openedDropdownId === id ? 'show' : ''}`}

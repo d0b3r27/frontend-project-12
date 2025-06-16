@@ -27,6 +27,7 @@ export default {
       channels: 'Каналы',
       remove: 'Удалить',
       rename: 'Переименовать',
+      manage: 'Управление каналом',
     },
     messages: {
       send: 'Отправить',

@@ -52,7 +52,7 @@ const Messages = () => {
           <p className="m-0">
             <b>
               #
-              {channelName}
+              {` ${channelName}`}
             </b>
           </p>
           <span className="text-muted">{t('messages.count', { count: activeChannelMessages?.length ?? 0 })}</span>
