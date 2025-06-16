@@ -1,6 +1,6 @@
 import { useRef, useEffect, useMemo } from 'react';
 import {
-  Formik, Form, Field,
+  Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -71,10 +71,7 @@ const AddChannelForm = ({ close }) => {
               innerRef={inputRef}
             />
             <label className="visually-hidden" htmlFor="channelName">{t('modal.channelName')}</label>
-            {errors.channelName && (
-              <div className="invalid-feedback d-block">{errors.channelName}</div>
-            )}
-            {/* <ErrorMessage name="channelName" component="div" className="invalid-feedback" /> */}
+            <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
             <div className="d-flex justify-content-end">
               <button
                 type="button"

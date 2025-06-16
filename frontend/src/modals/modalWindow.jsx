@@ -13,9 +13,7 @@ const ModalWindow = () => {
 
   const handleClose = () => {
     dispatch(closeModalStart());
-    setTimeout(() => {
-      dispatch(closeModalFinish());
-    }, 300);
+    dispatch(closeModalFinish());
   };
 
   return (
