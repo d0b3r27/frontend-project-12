@@ -77,7 +77,7 @@ export default {
     toasty: {
       networkError: 'Ошибка сети. Попробуйте позже',
       channelCreated: 'Канал создан',
-      channelRemoved: 'Канал удален',
+      channelRemoved: 'Канал удалён',
       channelRenamed: 'Канал переименован',
     },
   },
