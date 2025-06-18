@@ -20,7 +20,7 @@ const RemoveChannelForm = ({ id, close }) => {
           toast.success(t('toasty.channelRemoved'))
           close()
         }
-        catch (e) {
+        catch {
           toast.error(t('toasty.networkError'))
         }
         finally {

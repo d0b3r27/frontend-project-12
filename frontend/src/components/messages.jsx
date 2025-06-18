@@ -16,11 +16,11 @@ const Messages = () => {
   const lastMessageRef = useRef(null)
   const inputRef = useRef()
 
-  const inputHandler = e => {
+  const inputHandler = (e) => {
     setMessage(e.target.value)
   }
 
-  const submitHandler = async e => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     const cleanMessage = cleanText(message)
     try {

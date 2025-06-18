@@ -21,16 +21,16 @@ const ChannelsList = ({ channels }) => {
     dispatch(setActiveChannel({ name, id }))
   }
 
-  const handleManageChannel = id => {
+  const handleManageChannel = (id) => {
     setOpenedDropdownId(prevId => (prevId === id ? null : id))
   }
 
-  const handleRemoveChannel = id => {
+  const handleRemoveChannel = (id) => {
     dispatch(removeChannelModal(id))
     setOpenedDropdownId(null)
   }
 
-  const handleEditChannel = id => {
+  const handleEditChannel = (id) => {
     dispatch(editChannelModal(id))
     setOpenedDropdownId(null)
   }

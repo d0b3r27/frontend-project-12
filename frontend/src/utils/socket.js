@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { io } from 'socket.io-client'
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,7 +18,7 @@ const useSocketEvents = () => {
   useEffect(() => {
     activeChannelIdRef.current = activeChannelId
 
-    const handleNewMessage = message => {
+    const handleNewMessage = (message) => {
       try {
         store.dispatch(
           chatApi.util.updateQueryData('getMessages', undefined, draft => {
@@ -33,7 +32,7 @@ const useSocketEvents = () => {
       }
     }
 
-    const handleNewChannel = channel => {
+    const handleNewChannel = (channel) => {
       try {
         store.dispatch(
           chatApi.util.updateQueryData('getChannels', undefined, draft => {
@@ -47,7 +46,7 @@ const useSocketEvents = () => {
       }
     }
 
-    const handleEditChannel = channel => {
+    const handleEditChannel = (channel) => {
       try {
         store.dispatch(
           chatApi.util.updateQueryData('getChannels', undefined, draft => {
