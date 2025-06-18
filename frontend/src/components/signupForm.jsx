@@ -15,7 +15,7 @@ const SignupForm = () => {
   const dispatch = useDispatch()
   const usernameRef = useRef()
   const [signupError, setSignupError] = useState()
-  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const isAuth = useSelector((state) => state.auth.isAuthenticated)
   const { t } = useTranslation()
 
   const validationSchema = Yup.object({

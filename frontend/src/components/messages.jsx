@@ -9,18 +9,18 @@ const Messages = () => {
   const { data, error } = useGetMessagesQuery()
   const [addMessage, { isLoading }] = useAddMessageMutation()
   const [message, setMessage] = useState('')
-  const nickname = useSelector(state => state.auth.username)
-  const { name: channelName, id: activeChannelId } = useSelector(state => state.activeChannel)
+  const nickname = useSelector((state) => state.auth.username)
+  const { name: channelName, id: activeChannelId } = useSelector((state) => state.activeChannel)
   const { t } = useTranslation()
   const activeChannelMessages = data?.filter(({ channelId }) => channelId === activeChannelId)
   const lastMessageRef = useRef(null)
   const inputRef = useRef()
 
-  const inputHandler = e => {
+  const inputHandler = (e) => {
     setMessage(e.target.value)
   }
 
-  const submitHandler = async e => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     const cleanMessage = cleanText(message)
     try {

@@ -19,7 +19,7 @@ const EditChannelForm = ({ id, close }) => {
   }, [])
 
   const channelNames = useMemo(
-    () => channels.map(channel => channel.name.toLowerCase()),
+    () => channels.map((channel) => channel.name.toLowerCase()),
     [channels],
   )
 
@@ -32,7 +32,7 @@ const EditChannelForm = ({ id, close }) => {
       .test(
         'no-profanity',
         t('yup.profanity'),
-        value => !containsProfanity(value ?? ''),
+        (value) => !containsProfanity(value ?? ''),
       ),
   }), [t, channelNames])
 

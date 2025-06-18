@@ -7,7 +7,7 @@ import { setActiveChannel } from '../slices/activeChannelSlice.js'
 import { addChannelModal, editChannelModal, removeChannelModal } from '../slices/modalSlice.js'
 
 const ChannelsList = ({ channels }) => {
-  const activeChannelId = useSelector(state => state.activeChannel.id)
+  const activeChannelId = useSelector((state) => state.activeChannel.id)
   const activeChannelRef = useRef(null)
   const dispatch = useDispatch()
   const [openedDropdownId, setOpenedDropdownId] = useState(null)
@@ -21,16 +21,16 @@ const ChannelsList = ({ channels }) => {
     dispatch(setActiveChannel({ name, id }))
   }
 
-  const handleManageChannel = id => {
-    setOpenedDropdownId(prevId => (prevId === id ? null : id))
+  const handleManageChannel = (id) => {
+    setOpenedDropdownId((prevId) => (prevId === id ? null : id))
   }
 
-  const handleRemoveChannel = id => {
+  const handleRemoveChannel = (id) => {
     dispatch(removeChannelModal(id))
     setOpenedDropdownId(null)
   }
 
-  const handleEditChannel = id => {
+  const handleEditChannel = (id) => {
     dispatch(editChannelModal(id))
     setOpenedDropdownId(null)
   }

@@ -13,7 +13,7 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const [authError, setAuthError] = useState(null)
   const dispatch = useDispatch()
-  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const isAuth = useSelector((state) => state.auth.isAuthenticated)
   const { t } = useTranslation()
 
   useEffect(() => {

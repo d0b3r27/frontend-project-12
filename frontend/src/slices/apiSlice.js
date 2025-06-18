@@ -13,12 +13,12 @@ export const chatApi = createApi({
       return headers
     },
   }),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => 'channels',
     }),
     addChannel: builder.mutation({
-      query: body => ({
+      query: (body) => ({
         url: 'channels',
         method: 'POST',
         body,
@@ -32,7 +32,7 @@ export const chatApi = createApi({
       }),
     }),
     removeChannel: builder.mutation({
-      query: id => ({
+      query: (id) => ({
         url: `channels/${id}`,
         method: 'DELETE',
       }),
@@ -41,7 +41,7 @@ export const chatApi = createApi({
       query: () => 'messages',
     }),
     addMessage: builder.mutation({
-      query: body => ({
+      query: (body) => ({
         url: 'messages',
         method: 'POST',
         body,
@@ -55,7 +55,7 @@ export const chatApi = createApi({
       }),
     }),
     removeMessage: builder.mutation({
-      query: id => ({
+      query: (id) => ({
         url: `messages/${id}`,
         method: 'DELETE',
       }),

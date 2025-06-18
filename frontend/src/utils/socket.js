@@ -12,17 +12,17 @@ const socket = io()
 
 const useSocketEvents = () => {
   const dispatch = useDispatch()
-  const activeChannelId = useSelector(state => state.activeChannel.id)
+  const activeChannelId = useSelector((state) => state.activeChannel.id)
   const activeChannelIdRef = useRef(activeChannelId)
   const { t } = useTranslation()
 
   useEffect(() => {
     activeChannelIdRef.current = activeChannelId
 
-    const handleNewMessage = message => {
+    const handleNewMessage = (message) => {
       try {
         store.dispatch(
-          chatApi.util.updateQueryData('getMessages', undefined, draft => {
+          chatApi.util.updateQueryData('getMessages', undefined, (draft) => {
             draft.push(message)
           }),
         )
@@ -33,10 +33,10 @@ const useSocketEvents = () => {
       }
     }
 
-    const handleNewChannel = channel => {
+    const handleNewChannel = (channel) => {
       try {
         store.dispatch(
-          chatApi.util.updateQueryData('getChannels', undefined, draft => {
+          chatApi.util.updateQueryData('getChannels', undefined, (draft) => {
             draft.push(channel)
           }),
         )
@@ -47,11 +47,11 @@ const useSocketEvents = () => {
       }
     }
 
-    const handleEditChannel = channel => {
+    const handleEditChannel = (channel) => {
       try {
         store.dispatch(
-          chatApi.util.updateQueryData('getChannels', undefined, draft => {
-            const index = draft.findIndex(c => c.id === channel.id)
+          chatApi.util.updateQueryData('getChannels', undefined, (draft) => {
+            const index = draft.findIndex((c) => c.id === channel.id)
             if (index !== -1) {
               draft[index].name = channel.name
             }
@@ -67,8 +67,8 @@ const useSocketEvents = () => {
     const handleRemoveChannel = ({ id }) => {
       try {
         store.dispatch(
-          chatApi.util.updateQueryData('getChannels', undefined, draft => {
-            const index = draft.findIndex(c => c.id === id)
+          chatApi.util.updateQueryData('getChannels', undefined, (draft) => {
+            const index = draft.findIndex((c) => c.id === id)
             if (index !== -1) {
               draft.splice(index, 1)
             }
@@ -89,12 +89,12 @@ const useSocketEvents = () => {
       console.log(t('errors.socket.connect'))
     })
 
-    socket.on('connect_error', err => {
+    socket.on('connect_error', (err) => {
       console.error(t('errors.socket.connectError'), err)
       toast.error(t('errors.socket.connectError'))
     })
 
-    socket.on('disconnect', reason => {
+    socket.on('disconnect', (reason) => {
       console.warn(t('errors.socket.disconnect'), reason)
       toast.warning(t('errors.socket.disconnect'))
     })
