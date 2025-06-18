@@ -12,7 +12,7 @@ const store = configureStore({
     modal: modalReducer,
 
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(chatApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(chatApi.middleware),
 })
 
 export default store

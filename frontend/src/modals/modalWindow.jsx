@@ -8,7 +8,7 @@ import RemoveChannelForm from './removeChannelForm'
 
 const ModalWindow = () => {
   const dispatch = useDispatch()
-  const { modalType, channelId, isOpen } = useSelector((state) => state.modal)
+  const { modalType, channelId, isOpen } = useSelector(state => state.modal)
   const { t } = useTranslation()
 
   const handleClose = () => {

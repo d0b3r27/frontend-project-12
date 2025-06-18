@@ -6,7 +6,7 @@ import { logout } from '../slices/authSlice'
 const NavBar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const isAuth = useSelector((state) => state.auth.isAuthenticated)
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
   const { t, i18n } = useTranslation()
 
   const logoutHandler = () => {

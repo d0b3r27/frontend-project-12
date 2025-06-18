@@ -21,7 +21,7 @@ rules:
   '@stylistic/quotes': ['error', 'single']
   '@stylistic/indent': ['error', 2]
   '@stylistic/comma-dangle': ['error', 'always-multiline']
-  '@stylistic/arrow-parens': ['error', 'always']
+  '@stylistic/arrow-parens': ['error', 'as-needed']
   '@stylistic/object-curly-spacing': ['error', 'always']
   '@stylistic/brace-style': ['error', 'stroustrup', { 'allowSingleLine': false }]
 

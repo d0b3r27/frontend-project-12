@@ -22,7 +22,7 @@ const AddChannelForm = ({ close }) => {
   }, [])
 
   const channelNames = useMemo(
-    () => channels.map((channel) => channel.name.toLowerCase()),
+    () => channels.map(channel => channel.name.toLowerCase()),
     [channels],
   )
 
