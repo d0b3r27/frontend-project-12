@@ -1,10 +1,10 @@
-import { useTranslation } from 'react-i18next';
-import SignupForm from '../components/signupForm';
-import NavBar from '../components/navigationBar';
-import signup from '../assets/signup.jpg';
+import { useTranslation } from 'react-i18next'
+import SignupForm from '../components/signupForm'
+import NavBar from '../components/navigationBar'
+import signup from '../assets/signup.jpg'
 
 const SingupPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="d-flex flex-column h-100">
@@ -24,7 +24,7 @@ const SingupPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SingupPage;
+export default SingupPage

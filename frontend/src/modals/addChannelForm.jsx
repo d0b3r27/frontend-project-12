@@ -1,30 +1,30 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo } from 'react'
 import {
   Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import { useDispatch } from 'react-redux';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useAddChannelMutation, useGetChannelsQuery } from '../slices/apiSlice.js';
-import { setActiveChannel } from '../slices/activeChannelSlice.js';
-import { cleanText } from '../utils/profanityFilter.js';
+} from 'formik'
+import { useDispatch } from 'react-redux'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { useAddChannelMutation, useGetChannelsQuery } from '../slices/apiSlice.js'
+import { setActiveChannel } from '../slices/activeChannelSlice.js'
+import { cleanText } from '../utils/profanityFilter.js'
 
 const AddChannelForm = ({ close }) => {
-  const dispatch = useDispatch();
-  const [addChannel] = useAddChannelMutation();
-  const { data: channels = [] } = useGetChannelsQuery();
-  const inputRef = useRef(null);
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const [addChannel] = useAddChannelMutation()
+  const { data: channels = [] } = useGetChannelsQuery()
+  const inputRef = useRef(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    inputRef.current?.focus()
+  }, [])
 
   const channelNames = useMemo(
-    () => channels.map((channel) => channel.name.toLowerCase()),
+    () => channels.map(channel => channel.name.toLowerCase()),
     [channels],
-  );
+  )
 
   const validationSchema = useMemo(() => Yup.object({
     channelName: Yup.string()
@@ -32,7 +32,7 @@ const AddChannelForm = ({ close }) => {
       .min(3, t('yup.min3Max20'))
       .max(20, t('yup.min3Max20'))
       .notOneOf(channelNames, t('yup.alreadyExist')),
-  }), [t, channelNames]);
+  }), [t, channelNames])
 
   return (
     <Formik
@@ -40,18 +40,20 @@ const AddChannelForm = ({ close }) => {
       validationSchema={validationSchema}
       validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
-        const { channelName } = values;
-        const cleanChannelName = cleanText(channelName);
+        const { channelName } = values
+        const cleanChannelName = cleanText(channelName)
         try {
-          const response = await addChannel({ name: cleanChannelName }).unwrap();
-          const { name, id } = response;
-          dispatch(setActiveChannel({ name, id }));
-          toast.success(t('toasty.channelCreated'));
-          close();
-        } catch (e) {
-          toast.error(t('toasty.networkError'));
-        } finally {
-          setSubmitting(false);
+          const response = await addChannel({ name: cleanChannelName }).unwrap()
+          const { name, id } = response
+          dispatch(setActiveChannel({ name, id }))
+          toast.success(t('toasty.channelCreated'))
+          close()
+        }
+        catch {
+          toast.error(t('toasty.networkError'))
+        }
+        finally {
+          setSubmitting(false)
         }
       }}
     >
@@ -88,7 +90,7 @@ const AddChannelForm = ({ close }) => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default AddChannelForm;
+export default AddChannelForm

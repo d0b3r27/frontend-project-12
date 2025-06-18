@@ -1,22 +1,22 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { logout } from '../slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { logout } from '../slices/authSlice'
 
 const NavBar = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
-  const { t, i18n } = useTranslation();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const { t, i18n } = useTranslation()
 
   const logoutHandler = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
+    dispatch(logout())
+    navigate('/login')
+  }
   const languageSwitchHandler = () => {
-    const newLang = i18n.language === 'ru' ? 'en' : 'ru';
-    i18n.changeLanguage(newLang);
-  };
+    const newLang = i18n.language === 'ru' ? 'en' : 'ru'
+    i18n.changeLanguage(newLang)
+  }
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -38,7 +38,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

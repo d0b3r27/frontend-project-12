@@ -1,7 +1,7 @@
 export default {
   translation: {
     signin: {
-      noAccount: "Don't have an account?",
+      noAccount: 'Don\'t have an account?',
       login: 'Log in',
       signup: 'Sign up',
       username: 'Your username',
@@ -72,4 +72,4 @@ export default {
       channelRenamed: 'Channel renamed',
     },
   },
-};
+}

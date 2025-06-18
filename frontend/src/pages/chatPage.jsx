@@ -1,6 +1,6 @@
-import NavBar from '../components/navigationBar';
-import Channels from '../components/channels';
-import Messages from '../components/messages';
+import NavBar from '../components/navigationBar'
+import Channels from '../components/channels'
+import Messages from '../components/messages'
 
 const ChatPage = () => (
   <div className="d-flex flex-column h-100">
@@ -12,6 +12,6 @@ const ChatPage = () => (
       </div>
     </div>
   </div>
-);
+)
 
-export default ChatPage;
+export default ChatPage

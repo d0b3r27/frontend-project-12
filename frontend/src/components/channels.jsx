@@ -1,44 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useGetChannelsQuery } from '../slices/apiSlice';
-import { setActiveChannel } from '../slices/activeChannelSlice.js';
-import { addChannelModal, editChannelModal, removeChannelModal } from '../slices/modalSlice.js';
+import { useEffect, useRef, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { useGetChannelsQuery } from '../slices/apiSlice'
+import { setActiveChannel } from '../slices/activeChannelSlice.js'
+import { addChannelModal, editChannelModal, removeChannelModal } from '../slices/modalSlice.js'
 
 const ChannelsList = ({ channels }) => {
-  const activeChannelId = useSelector((state) => state.activeChannel.id);
-  const activeChannelRef = useRef(null);
-  const dispatch = useDispatch();
-  const [openedDropdownId, setOpenedDropdownId] = useState(null);
-  const { t } = useTranslation();
+  const activeChannelId = useSelector(state => state.activeChannel.id)
+  const activeChannelRef = useRef(null)
+  const dispatch = useDispatch()
+  const [openedDropdownId, setOpenedDropdownId] = useState(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    activeChannelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [activeChannelId]);
+    activeChannelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [activeChannelId])
 
   const handleActiveChannel = (name, id) => {
-    dispatch(setActiveChannel({ name, id }));
-  };
+    dispatch(setActiveChannel({ name, id }))
+  }
 
-  const handleManageChannel = (id) => {
-    setOpenedDropdownId((prevId) => (prevId === id ? null : id));
-  };
+  const handleManageChannel = id => {
+    setOpenedDropdownId(prevId => (prevId === id ? null : id))
+  }
 
-  const handleRemoveChannel = (id) => {
-    dispatch(removeChannelModal(id));
-    setOpenedDropdownId(null);
-  };
+  const handleRemoveChannel = id => {
+    dispatch(removeChannelModal(id))
+    setOpenedDropdownId(null)
+  }
 
-  const handleEditChannel = (id) => {
-    dispatch(editChannelModal(id));
-    setOpenedDropdownId(null);
-  };
+  const handleEditChannel = id => {
+    dispatch(editChannelModal(id))
+    setOpenedDropdownId(null)
+  }
 
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels?.map(({ name, id, removable }) => {
-        const isActive = activeChannelId === id;
+        const isActive = activeChannelId === id
         return (
           <li key={id} className="nav-item w-100" ref={isActive ? activeChannelRef : null}>
             <div className="d-flex dropdown btn-group" role="group">
@@ -52,60 +52,60 @@ const ChannelsList = ({ channels }) => {
               </button>
               {removable
                 && (
-                <>
-                  <button
-                    type="button"
-                    className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${isActive ? 'btn-secondary' : ''}`}
-                    aria-expanded="false"
-                    aria-label="Channel managment"
-                    onClick={() => handleManageChannel(id)}
-                  >
-                    <span className="visually-hidden">{t('channels.manage')}</span>
-                  </button>
-                  <div
-                    data-x-placement="bottom-end"
-                    className={`dropdown-menu ${openedDropdownId === id ? 'show' : ''}`}
-                    style={{
-                      position: 'absolute',
-                      inset: '0px 0px auto auto',
-                      transform: 'translate(0px, 40px)',
-                    }}
-                  >
+                  <>
                     <button
                       type="button"
-                      className="dropdown-item"
-                      onClick={() => handleRemoveChannel(id)}
+                      className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${isActive ? 'btn-secondary' : ''}`}
+                      aria-expanded="false"
+                      aria-label="Channel managment"
+                      onClick={() => handleManageChannel(id)}
                     >
-                      {t('channels.remove')}
+                      <span className="visually-hidden">{t('channels.manage')}</span>
                     </button>
-                    <button
-                      type="button"
-                      className="dropdown-item"
-                      onClick={() => handleEditChannel(id)}
+                    <div
+                      data-x-placement="bottom-end"
+                      className={`dropdown-menu ${openedDropdownId === id ? 'show' : ''}`}
+                      style={{
+                        position: 'absolute',
+                        inset: '0px 0px auto auto',
+                        transform: 'translate(0px, 40px)',
+                      }}
                     >
-                      {t('channels.rename')}
-                    </button>
-                  </div>
-                </>
+                      <button
+                        type="button"
+                        className="dropdown-item"
+                        onClick={() => handleRemoveChannel(id)}
+                      >
+                        {t('channels.remove')}
+                      </button>
+                      <button
+                        type="button"
+                        className="dropdown-item"
+                        onClick={() => handleEditChannel(id)}
+                      >
+                        {t('channels.rename')}
+                      </button>
+                    </div>
+                  </>
                 )}
             </div>
           </li>
-        );
+        )
       })}
     </ul>
-  );
-};
+  )
+}
 
 const Channels = () => {
-  const { data, error } = useGetChannelsQuery();
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { data, error } = useGetChannelsQuery()
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (error) {
-      toast.error(t('toasty.networkError'));
+      toast.error(t('toasty.networkError'))
     }
-  }, [error, t]);
+  }, [error, t])
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -121,7 +121,7 @@ const Channels = () => {
       </div>
       <ChannelsList channels={data} />
     </div>
-  );
-};
+  )
+}
 
-export default Channels;
+export default Channels

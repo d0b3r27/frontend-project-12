@@ -1,10 +1,10 @@
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import image404 from '../assets/image404.svg';
-import NavBar from '../components/navigationBar';
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import image404 from '../assets/image404.svg'
+import NavBar from '../components/navigationBar'
 
 const Page404 = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="d-flex flex-column vh-100">
@@ -19,7 +19,7 @@ const Page404 = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Page404;
+export default Page404

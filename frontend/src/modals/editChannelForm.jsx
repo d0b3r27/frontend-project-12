@@ -1,27 +1,27 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo } from 'react'
 import {
   Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useGetChannelsQuery, useEditChannelMutation } from '../slices/apiSlice.js';
-import { containsProfanity } from '../utils/profanityFilter.js';
+} from 'formik'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { useGetChannelsQuery, useEditChannelMutation } from '../slices/apiSlice.js'
+import { containsProfanity } from '../utils/profanityFilter.js'
 
 const EditChannelForm = ({ id, close }) => {
-  const [editChannel] = useEditChannelMutation();
-  const { data: channels = [] } = useGetChannelsQuery();
-  const inputRef = useRef(null);
-  const { t } = useTranslation();
+  const [editChannel] = useEditChannelMutation()
+  const { data: channels = [] } = useGetChannelsQuery()
+  const inputRef = useRef(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    inputRef.current?.focus()
+  }, [])
 
   const channelNames = useMemo(
-    () => channels.map((channel) => channel.name.toLowerCase()),
+    () => channels.map(channel => channel.name.toLowerCase()),
     [channels],
-  );
+  )
 
   const validationSchema = useMemo(() => Yup.object({
     channelName: Yup.string()
@@ -32,9 +32,9 @@ const EditChannelForm = ({ id, close }) => {
       .test(
         'no-profanity',
         t('yup.profanity'),
-        (value) => !containsProfanity(value ?? ''),
+        value => !containsProfanity(value ?? ''),
       ),
-  }), [t, channelNames]);
+  }), [t, channelNames])
 
   return (
     <Formik
@@ -42,15 +42,17 @@ const EditChannelForm = ({ id, close }) => {
       validationSchema={validationSchema}
       validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
-        const { channelName } = values;
+        const { channelName } = values
         try {
-          await editChannel({ id, channelName }).unwrap();
-          toast.success(t('toasty.channelRenamed'));
-          close();
-        } catch (e) {
-          toast.error(t('toasty.networkError'));
-        } finally {
-          setSubmitting(false);
+          await editChannel({ id, channelName }).unwrap()
+          toast.success(t('toasty.channelRenamed'))
+          close()
+        }
+        catch {
+          toast.error(t('toasty.networkError'))
+        }
+        finally {
+          setSubmitting(false)
         }
       }}
     >
@@ -87,7 +89,7 @@ const EditChannelForm = ({ id, close }) => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default EditChannelForm;
+export default EditChannelForm

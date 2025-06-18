@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import avatar from '../assets/avatar.jpg';
-import LoginForm from '../components/loginForm';
-import NavBar from '../components/navigationBar';
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import avatar from '../assets/avatar.jpg'
+import LoginForm from '../components/loginForm'
+import NavBar from '../components/navigationBar'
 
 const SigninPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="d-flex flex-column h-100">
@@ -34,7 +34,7 @@ const SigninPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SigninPage;
+export default SigninPage

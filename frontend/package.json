@@ -33,6 +33,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.5.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "eslint": "^8.57.1",

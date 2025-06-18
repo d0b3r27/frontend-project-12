@@ -1,22 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import urls from '../slices/serverUrls';
-import { login } from '../slices/authSlice';
+} from 'formik'
+import { useDispatch, useSelector } from 'react-redux'
+import * as Yup from 'yup'
+import axios from 'axios'
+import { useTranslation } from 'react-i18next'
+import urls from '../slices/serverUrls'
+import { login } from '../slices/authSlice'
 
 const SignupForm = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const usernameRef = useRef();
-  const [signupError, setSignupError] = useState();
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
-  const { t } = useTranslation();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const usernameRef = useRef()
+  const [signupError, setSignupError] = useState()
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const { t } = useTranslation()
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -29,17 +29,17 @@ const SignupForm = () => {
     confirmPassword: Yup.string()
       .required(t('yup.required'))
       .oneOf([Yup.ref('password'), null], t('yup.passwordConfirm')),
-  });
+  })
 
   useEffect(() => {
-    usernameRef.current.focus();
-  }, []);
+    usernameRef.current.focus()
+  }, [])
 
   useEffect(() => {
     if (isAuth) {
-      navigate('/');
+      navigate('/')
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, navigate])
 
   return (
     <Formik
@@ -50,23 +50,26 @@ const SignupForm = () => {
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        const { username, password } = values;
+        const { username, password } = values
         if (!username) {
-          usernameRef.current.focus();
-          return;
+          usernameRef.current.focus()
+          return
         }
 
         try {
-          const response = await axios.post(urls.singup, ({ username, password }));
-          dispatch(login(response.data));
-        } catch (error) {
+          const response = await axios.post(urls.singup, ({ username, password }))
+          dispatch(login(response.data))
+        }
+        catch (error) {
           if (error.response?.status === 409) {
-            setSignupError(t('errors.signup.userAlreadyExist'));
-          } else {
-            setSignupError(t('errors.signup.registrationError'));
+            setSignupError(t('errors.signup.userAlreadyExist'))
           }
-        } finally {
-          setSubmitting(false);
+          else {
+            setSignupError(t('errors.signup.registrationError'))
+          }
+        }
+        finally {
+          setSubmitting(false)
         }
       }}
     >
@@ -120,7 +123,7 @@ const SignupForm = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default SignupForm;
+export default SignupForm

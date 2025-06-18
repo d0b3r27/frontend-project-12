@@ -1,30 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import { login } from '../slices/authSlice.js';
-import urls from '../slices/serverUrls.js';
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Formik, Form, Field } from 'formik'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { useTranslation } from 'react-i18next'
+import { login } from '../slices/authSlice.js'
+import urls from '../slices/serverUrls.js'
 
 const LoginForm = () => {
-  const loginRef = useRef();
-  const passwordRef = useRef();
-  const navigate = useNavigate();
-  const [authError, setAuthError] = useState(null);
-  const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
-  const { t } = useTranslation();
+  const loginRef = useRef()
+  const passwordRef = useRef()
+  const navigate = useNavigate()
+  const [authError, setAuthError] = useState(null)
+  const dispatch = useDispatch()
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    loginRef.current.focus();
-  }, []);
+    loginRef.current.focus()
+  }, [])
 
   useEffect(() => {
     if (isAuth) {
-      navigate('/');
+      navigate('/')
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, navigate])
 
   return (
     <Formik
@@ -33,32 +33,35 @@ const LoginForm = () => {
         password: '',
       }}
       onSubmit={async (values, { setSubmitting }) => {
-        const { username, password } = values;
-        setAuthError(null);
+        const { username, password } = values
+        setAuthError(null)
 
         if (!username) {
-          loginRef.current.focus();
-          setSubmitting(false);
-          return;
+          loginRef.current.focus()
+          setSubmitting(false)
+          return
         }
         if (!password) {
-          passwordRef.current.focus();
-          setSubmitting(false);
-          return;
+          passwordRef.current.focus()
+          setSubmitting(false)
+          return
         }
 
         try {
-          const response = await axios.post(urls.login, values);
-          dispatch(login(response.data));
-        } catch (error) {
+          const response = await axios.post(urls.login, values)
+          dispatch(login(response.data))
+        }
+        catch (error) {
           if (error.response?.status === 401) {
-            setAuthError(t('errors.signin.wrongLogPas'));
-          } else {
-            setAuthError(t('errors.signin.signinError'));
+            setAuthError(t('errors.signin.wrongLogPas'))
           }
-          loginRef.current.select();
-        } finally {
-          setSubmitting(false);
+          else {
+            setAuthError(t('errors.signin.signinError'))
+          }
+          loginRef.current.select()
+        }
+        finally {
+          setSubmitting(false)
         }
       }}
     >
@@ -103,7 +106,7 @@ const LoginForm = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

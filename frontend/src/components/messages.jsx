@@ -1,49 +1,50 @@
-import { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { cleanText } from '../utils/profanityFilter.js';
-import { useGetMessagesQuery, useAddMessageMutation } from '../slices/apiSlice';
+import { useState, useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
+import { cleanText } from '../utils/profanityFilter.js'
+import { useGetMessagesQuery, useAddMessageMutation } from '../slices/apiSlice'
 
 const Messages = () => {
-  const { data, error } = useGetMessagesQuery();
-  const [addMessage, { isLoading }] = useAddMessageMutation();
-  const [message, setMessage] = useState('');
-  const nickname = useSelector((state) => state.auth.username);
-  const { name: channelName, id: activeChannelId } = useSelector((state) => state.activeChannel);
-  const { t } = useTranslation();
-  const activeChannelMessages = data?.filter(({ channelId }) => channelId === activeChannelId);
-  const lastMessageRef = useRef(null);
-  const inputRef = useRef();
+  const { data, error } = useGetMessagesQuery()
+  const [addMessage, { isLoading }] = useAddMessageMutation()
+  const [message, setMessage] = useState('')
+  const nickname = useSelector(state => state.auth.username)
+  const { name: channelName, id: activeChannelId } = useSelector(state => state.activeChannel)
+  const { t } = useTranslation()
+  const activeChannelMessages = data?.filter(({ channelId }) => channelId === activeChannelId)
+  const lastMessageRef = useRef(null)
+  const inputRef = useRef()
 
-  const inputHandler = (e) => {
-    setMessage(e.target.value);
-  };
+  const inputHandler = e => {
+    setMessage(e.target.value)
+  }
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const cleanMessage = cleanText(message);
+  const submitHandler = async e => {
+    e.preventDefault()
+    const cleanMessage = cleanText(message)
     try {
-      await addMessage({ body: cleanMessage, channelId: activeChannelId, username: nickname });
-      setMessage('');
-    } catch {
-      toast.error(t('toasty.networkError'));
+      await addMessage({ body: cleanMessage, channelId: activeChannelId, username: nickname })
+      setMessage('')
     }
-  };
+    catch {
+      toast.error(t('toasty.networkError'))
+    }
+  }
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
 
   useEffect(() => {
     if (error) {
-      toast.error(t('toasty.networkError'));
+      toast.error(t('toasty.networkError'))
     }
-  }, [error, t]);
+  }, [error, t])
 
   useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [activeChannelMessages]);
+    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [activeChannelMessages])
 
   return (
     <div className="col p-0 h-100">
@@ -93,7 +94,7 @@ const Messages = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Messages;
+export default Messages

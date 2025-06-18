@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { chatApi } from './apiSlice.js';
-import authReducer from './authSlice.js';
-import activeChannelReducer from './activeChannelSlice.js';
-import modalReducer from './modalSlice.js';
+import { configureStore } from '@reduxjs/toolkit'
+import { chatApi } from './apiSlice.js'
+import authReducer from './authSlice.js'
+import activeChannelReducer from './activeChannelSlice.js'
+import modalReducer from './modalSlice.js'
 
 const store = configureStore({
   reducer: {
@@ -12,7 +12,7 @@ const store = configureStore({
     modal: modalReducer,
 
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(chatApi.middleware),
-});
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(chatApi.middleware),
+})
 
-export default store;
+export default store
