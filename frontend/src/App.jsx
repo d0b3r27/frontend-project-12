@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }) => {
 }
 
 const App = () => {
-  useSocketEvents()
+  // useSocketEvents()
 
   return (
     <>
