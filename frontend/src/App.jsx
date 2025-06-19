@@ -4,7 +4,7 @@ import Page404 from './pages/page404.jsx'
 import SigninPage from './pages/signinPage.jsx'
 import ChatPage from './pages/chatPage.jsx'
 import SingupPage from './pages/signupPage.jsx'
-// import useSocketEvents from './utils/socket.js'
+import useSocketEvents from './utils/socket.js'
 import ModalWindow from './modals/modalWindow.jsx'
 
 const PrivateRoute = ({ children }) => {
@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }) => {
 }
 
 const App = () => {
-  // useSocketEvents()
+  useSocketEvents()
 
   return (
     <>

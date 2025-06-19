@@ -1,12 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const storedUser = localStorage.getItem('user')
-const parsedUser = storedUser ? JSON.parse(storedUser) : null
+const loadUserFromStorage = () => {
+  try {
+    const raw = localStorage.getItem('user')
+    if (!raw) return null
+
+    const parsed = JSON.parse(raw)
+
+    if (typeof parsed !== 'object' || !parsed.token || !parsed.username) {
+      throw new Error('Неправильная структура localStorage["user"]')
+    }
+
+    return parsed
+  }
+  catch (err) {
+    console.warn('Ошибка загрузки user из localStorage:', err)
+    localStorage.removeItem('user')
+    return null
+  }
+}
+
+const parsedUser = loadUserFromStorage()
 
 const initialState = {
-  username: parsedUser ? parsedUser.username : null,
-  token: parsedUser ? parsedUser.token : null,
-  isAuthenticated: !!parsedUser,
+  username: parsedUser?.username ?? null,
+  token: parsedUser?.token ?? null,
+  isAuthenticated: Boolean(parsedUser),
 }
 
 const auth = createSlice({
@@ -18,13 +37,23 @@ const auth = createSlice({
       state.username = username
       state.token = token
       state.isAuthenticated = true
-      localStorage.setItem('user', JSON.stringify(payload))
+      try {
+        localStorage.setItem('user', JSON.stringify(payload))
+      }
+      catch (err) {
+        console.warn('Ошибка сохранения user в localStorage:', err)
+      }
     },
     logout(state) {
       state.username = null
       state.token = null
       state.isAuthenticated = false
-      localStorage.removeItem('user')
+      try {
+        localStorage.removeItem('user')
+      }
+      catch (err) {
+        console.warn('Ошибка удаления user из localStorage:', err)
+      }
     },
   },
 })
