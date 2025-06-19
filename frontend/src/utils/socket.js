@@ -7,7 +7,7 @@ import store from '../slices/store'
 import { chatApi } from '../slices/apiSlice'
 import { setActiveChannelDefault } from '../slices/activeChannelSlice'
 
-const socket = io()
+// const socket = io()
 
 const useSocketEvents = () => {
   const dispatch = useDispatch()

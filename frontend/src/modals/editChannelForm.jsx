@@ -61,7 +61,7 @@ const EditChannelForm = ({ id, close }) => {
           <div>
             <Field
               name="channelName"
-              autoComplete="channelName"
+              autoComplete="off"
               id="channelName"
               placeholder={t('modal.channelName')}
               className={`mb-2 form-control ${touched.channelName && errors.channelName ? 'is-invalid' : ''}`}

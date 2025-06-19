@@ -76,6 +76,7 @@ const Messages = () => {
                 aria-label="Новое сообщение"
                 placeholder={t('messages.inputMessage')}
                 className="border-0 p-0 ps-2 form-control"
+                autoComplete="off"
                 value={message}
                 onChange={inputHandler}
               />
