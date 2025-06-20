@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import store from '../slices/store'
 import { chatApi } from '../slices/apiSlice'
-import { setActiveChannelDefault } from '../slices/activeChannelSlice'
+import { setActiveChannelDefault, setActiveChannelName } from '../slices/activeChannelSlice'
 
 const socket = io()
 
@@ -53,6 +53,9 @@ const useSocketEvents = () => {
             const index = draft.findIndex(c => c.id === channel.id)
             if (index !== -1) {
               draft[index].name = channel.name
+            }
+            if (channel.id === activeChannelIdRef.current) {
+              store.dispatch(setActiveChannelName(channel.name))
             }
           }),
         )

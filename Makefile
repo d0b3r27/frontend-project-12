@@ -19,3 +19,9 @@ start-frontend:
 
 dev:
 	make start-backend & make start-frontend
+
+lint:
+	npx eslint --ext js,jsx \
+	--config ./frontend/.eslintrc.yml \
+	--ignore-path ./frontend/.eslintignore \
+	./frontend

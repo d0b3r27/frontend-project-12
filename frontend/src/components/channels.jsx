@@ -11,7 +11,24 @@ const ChannelsList = ({ channels }) => {
   const activeChannelRef = useRef(null)
   const dispatch = useDispatch()
   const [openedDropdownId, setOpenedDropdownId] = useState(null)
+  const dropdownRef = useRef(null)
   const { t } = useTranslation()
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setOpenedDropdownId(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   useEffect(() => {
     activeChannelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -41,7 +58,11 @@ const ChannelsList = ({ channels }) => {
         const isActive = activeChannelId === id
         return (
           <li key={id} className="nav-item w-100" ref={isActive ? activeChannelRef : null}>
-            <div className="d-flex dropdown btn-group" role="group">
+            <div
+              className="d-flex dropdown btn-group"
+              role="group"
+              ref={openedDropdownId === id ? dropdownRef : null}
+            >
               <button
                 type="button"
                 className={`w-100 rounded-0 text-start text-truncate btn ${isActive ? 'btn-secondary' : ''}`}

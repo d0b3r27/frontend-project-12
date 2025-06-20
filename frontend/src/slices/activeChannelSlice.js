@@ -15,8 +15,11 @@ const activeChannel = createSlice({
       state.id = initialState.id
       state.name = initialState.name
     },
+    setActiveChannelName(state, { payload }) {
+      state.name = payload
+    },
   },
 })
 
-export const { setActiveChannel, setActiveChannelDefault } = activeChannel.actions
+export const { setActiveChannel, setActiveChannelDefault, setActiveChannelName } = activeChannel.actions
 export default activeChannel.reducer
