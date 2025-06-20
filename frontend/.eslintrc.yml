@@ -24,6 +24,7 @@ rules:
   '@stylistic/arrow-parens': ['error', 'as-needed']
   '@stylistic/object-curly-spacing': ['error', 'always']
   '@stylistic/brace-style': ['error', 'stroustrup', { 'allowSingleLine': false }]
+  '@stylistic/operator-linebreak': [2, 'before']
 
   no-unused-vars: error
 

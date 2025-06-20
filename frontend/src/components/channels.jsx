@@ -17,8 +17,8 @@ const ChannelsList = ({ channels }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
+        dropdownRef.current
+        && !dropdownRef.current.contains(event.target)
       ) {
         setOpenedDropdownId(null)
       }
